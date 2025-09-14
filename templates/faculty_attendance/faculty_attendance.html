@@ -1,0 +1,93 @@
+{% extends 'core/main.html' %}
+
+{% block title %}Laboratory{% endblock %}
+
+{% block content %}
+<div class="container mx-auto flex-1 p-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Class Page</h2>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-wrap gap-3 mb-6">
+        <button onclick="addAssignment()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">+ Add Assignment</button>
+        <button onclick="openAddStudentModal()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">+ Add Student</button>
+        <button onclick="copyClassCode()" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">📋 Copy Class Code</button>
+        <button onclick="openAddClassModal()" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">+ Add Class</button>
+        <button onclick="resetAssignments()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">🗑️ Remove All Assignments</button>
+    </div>
+
+    <!-- Class Card -->
+    <div class="relative border border-green-600 rounded-lg p-5 bg-white transition hover:shadow-lg mb-6 class-card" data-code="M101A">
+        <button onclick="openEditClassModal(this)" class="absolute top-2 right-2 text-sm text-gray-500 hover:text-black bg-gray-100 px-2 py-1 rounded">✏️ Edit</button>
+        <h3 class="text-xl font-semibold text-gray-900">Information Management 2</h3>
+        <p class="text-sm text-gray-600 mt-1">Code: M101A</p>
+        <p class="text-sm text-gray-600 mt-1">Description: Fundamentals of Info Management</p>
+        <p class="text-sm text-gray-600 mt-1">Schedule: MWF 12:00PM - 3:00PM</p>
+        <p class="text-sm text-gray-600 mt-1">Room: 203</p>
+        <p class="text-sm text-gray-600 mt-1">Class Code: M101A</p>
+    </div>
+
+    <!-- Student Table -->
+    <div class="overflow-auto">
+        <table class="min-w-full bg-white rounded-lg shadow">
+            <thead>
+                <tr id="tableHeader">
+                    <th class="px-4 py-2 text-left">First Name</th>
+                    <th class="px-4 py-2 text-left">Last Name</th>
+                    <th class="px-4 py-2 text-left">Quiz 1</th>
+                    <th class="px-4 py-2 text-left">Quiz 2</th>
+                    <th class="px-4 py-2 text-left">Project</th>
+                    <th class="px-4 py-2 text-left">Exam</th>
+                    <th class="px-4 py-2 text-left">Total</th>
+                    <th class="px-4 py-2 text-left">Grade</th>
+                    <th class="px-4 py-2 text-left">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="studentsBody">
+                <!-- Students will be dynamically loaded -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Class Modal -->
+    <div id="addClassModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg relative">
+            <button onclick="closeAddClassModal()" class="absolute top-2 right-3 text-gray-500 hover:text-black text-xl">&times;</button>
+            <h3 class="text-xl font-bold mb-4 text-gray-800">Add New Class</h3>
+            <form id="addClassForm" onsubmit="submitAddClassForm(event)" class="space-y-4">
+                <input id="className" type="text" placeholder="Class Name" class="w-full border px-4 py-2 rounded" required>
+                <input id="classCode" type="text" placeholder="Class Code" class="w-full border px-4 py-2 rounded" required>
+                <input id="classDescription" type="text" placeholder="Description" class="w-full border px-4 py-2 rounded" required>
+                <input id="classSchedule" type="text" placeholder="Schedule (e.g., MWF 12:00PM - 3:00PM)" class="w-full border px-4 py-2 rounded" required>
+                <input id="classRoom" type="text" placeholder="Room" class="w-full border px-4 py-2 rounded" required>
+                <button type="submit" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">Add Class</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div id="addStudentModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg relative">
+            <button onclick="closeAddStudentModal()" class="absolute top-2 right-3 text-gray-500 hover:text-black text-xl">&times;</button>
+            <h3 class="text-xl font-bold mb-4 text-gray-800">Add New Student</h3>
+            <form id="addStudentForm" onsubmit="submitAddStudentForm(event)" class="space-y-4">
+                <input id="studentFirstName" type="text" placeholder="First Name" class="w-full border px-4 py-2 rounded" required>
+                <input id="studentLastName" type="text" placeholder="Last Name" class="w-full border px-4 py-2 rounded" required>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Add Student</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript logic -->
+<script>
+
+</script> 
+
+window.onload = function () {
+    loadAssignmentsFromLocalStorage();
+    loadStudentsFromLocalStorage();
+};
+</script>
+{% endblock %}
